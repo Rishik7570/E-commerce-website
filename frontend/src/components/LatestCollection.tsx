@@ -4,7 +4,7 @@ import Title from "./Title"
 import Productitem from "./Productitem";
 
 
-type latest = {
+export type product = {
     _id: string;
     name: string;
     description: string;
@@ -20,7 +20,7 @@ type latest = {
 const LatestCollection = () => {
 
     const context = useContext(ShopContext)
-    const [latestProducts,setLatestProducts] = useState<latest[]>([])
+    const [latestProducts,setLatestProducts] = useState<product[]>([])
 
     useEffect(()=>{
       if(context){

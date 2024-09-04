@@ -1,4 +1,4 @@
-import { createContext, ReactNode } from "react";
+import { createContext, ReactNode, useState } from "react";
 import { products } from "../assets/assets";
 
 type shopprops = {
@@ -20,6 +20,10 @@ type shopcontext = {
     }[]
     currency: string
     deliveryfee: number
+    search: string
+    setSearch: React.Dispatch<React.SetStateAction<string>>
+    showsearch: boolean
+    setShowsearch: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export const ShopContext = createContext<shopcontext | null>(null)
@@ -28,9 +32,12 @@ const ShopContextProvider = (props:shopprops)=> {
 
     const currency = '$'
     const deliveryfee = 10
+    const [search,setSearch] = useState('')
+    const [showsearch,setShowsearch] = useState(false)
 
     const value = {
-        products,currency,deliveryfee
+        products,currency,deliveryfee,
+        search,setSearch,showsearch,setShowsearch
     }
 
     return(
