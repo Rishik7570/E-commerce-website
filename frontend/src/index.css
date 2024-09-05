@@ -24,3 +24,7 @@ a.active hr{
         background: black;
     }
 }
+
+::-webkit-scrollbar{
+    display: none;
+}
