@@ -3,14 +3,14 @@ import { useParams } from "react-router-dom"
 import { ShopContext } from "../context/shopcontext"
 import { product } from "../components/LatestCollection"
 import { assets } from "../assets/assets"
+import RelatedProducts from "../components/RelatedProducts"
 
 
 const Product = () => {
 
 const {productId} = useParams()
 const context = useContext(ShopContext)
-const [available,setAvailable] = useState(false)
-const [productdata,setProductdata] = useState<product>()
+const [productdata,setProductdata] = useState<product | null>(null)
 const [image,setImage] = useState('')
 const [size,setSize] = useState('')
 
@@ -21,7 +21,6 @@ const fetchproductdata = async()=>{
       if(item._id === productId){
         setProductdata(item)
         setImage(item.image[0])
-        setAvailable(true)
         return null
       }
     })
@@ -33,7 +32,7 @@ useEffect(()=>{
   fetchproductdata()
 },[productId,context?.products])
 
-  return available ? (
+  return productdata ? (
     <div className="border-t-2 pt-10 transition-opacity ease-in duration-500 opacity-100">
 
       {/* Product data */}
@@ -76,7 +75,7 @@ useEffect(()=>{
                 ))}
             </div>
           </div>
-          <button className="bg-black text-white py-3 px-8 text-sm active:bg-gray-700">ADD TO CART</button>
+          <button onClick={()=>context?.addtocart(productdata._id,size)} className="bg-black text-white py-3 px-8 text-sm active:bg-gray-700">ADD TO CART</button>
           <hr className="mt-8 sm:4/5" />
           <div className="text-sm text-gray-500 mt-5 flex flex-col gap-1">
               <p>100% Original Product.</p>
@@ -106,6 +105,8 @@ useEffect(()=>{
       </div>
 
       {/* Display related products */}
+
+      <RelatedProducts category={productdata.category} subCategory={productdata.subCategory}/>
       
     </div>
   ) : <div className="opacity-0"></div>
