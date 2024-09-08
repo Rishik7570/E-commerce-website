@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import { ShopContext } from "../context/shopcontext"
 import Title from "../components/Title";
 import { assets } from "../assets/assets";
+import CartTotal from "../components/CartTotal";
 
 
 type cart = {
@@ -60,13 +61,27 @@ const Cart = () => {
                     </div>
                   </div>
                 </div>
-                <input type="text" min={1} defaultValue={item.quantity} className="border max-w-10 sm:max-w-20 px-1 sm:px-2 py-1" />
-                <img src={assets.bin_icon} alt="" className="w-4 mr-4 sm:w-5 cursor-pointer" />
+                <input type="text" 
+                  onChange={(e)=> e.target.value === '' || e.target.value === '0' ? null : context?.updateQuantity(item._id,item.size,Number(e.target.value))} 
+                    min={1} defaultValue={item.quantity} className="border max-w-10 sm:max-w-20 px-1 sm:px-2 py-1" />
+                    
+                <img src={assets.bin_icon} onClick={()=>context?.updateQuantity(item._id,item.size,0)} alt=""
+                   className="w-4 mr-4 sm:w-5 cursor-pointer" />
               </div>
             )
 
           })
         }
+      </div>
+
+      <div className="flex justify-end my-20">
+        <div className="w-full sm:w-[450px]">
+          <CartTotal />
+          <div className="w-full text-end">
+            <button onClick={()=>context?.navigate('/placeorder')} 
+              className="bg-black text-white text-sm my-8 py-3 px-8">PROCEED TO CHECKOUT</button>
+          </div>
+        </div>
       </div>
       
     </div>
